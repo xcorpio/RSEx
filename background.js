@@ -1,8 +1,12 @@
-chrome.runtime.onStartup.addListener(signInRs);
 chrome.alarms.onAlarm.addListener(onRsAlarm);
-setAlarm();
+chrome.runtime.onStartup.addListener(signInRs);
+chrome.extension.onMessage.addListener(onMessage);
 
 
+//处理来自内容脚本的信息
+function onMessage(msg, sender, sendResponse){
+  sendResponse({isShow:localStorage.getItem('doufm') == 'true'});
+}
 //设置定时器
 function setAlarm(){
   var xhr = new XMLHttpRequest();
@@ -27,12 +31,16 @@ function setAlarm(){
 
 //定时事件
 function onRsAlarm(alarm){
-  console.log(alarm,' fired.');
+  console.log(alarm,'alarm fired.');
 	signInRs();  
 }
 
 //浏览器启动时，睿思签到
 function signInRs(){
+  if(localStorage.getItem('autosignin')=='false'){
+    return;
+  }
+  setAlarm();
 	var day=localStorage.getItem('day');
 	var d=(new Date()).getDate().toString();
 	if(day!=d){
@@ -51,11 +59,11 @@ function signInRs(){
 				//签到心情,开心
 				var qdxq = 'kx';
 				//签到模式
-				var qdmode = '1';
+				var qdmode = '2';
 				//todaysay
-				var todaysay="love u.";
+				var todaysay="";
 				//快速回复
-				var fastreplay='0';
+				var fastreplay='1';
 				//发送签到
 				var xhr2 = new XMLHttpRequest();
 				xhr2.open("POST","http://rs.xidian.edu.cn/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&inajax=1",true);
@@ -67,15 +75,19 @@ function signInRs(){
 				  if(xhr2.readyState==4&&xhr2.status==200){  //成功签到
 				    //console.log(typeof(xhr2.responseText),xhr2.responseText);
 				    var c = localStorage.getItem('total');
-				    if(c===null){
-				    	var regex = /恭喜你签到成功!获得随机奖励 金币 \d/;
-					    var coin = regex.exec(xhr2.responseText)[0].split(' ')[2];
-					    localStorage.setItem('total',parseInt(coin));
-				    }else{
-					    var cc = parseInt(c);
-					    var regex2 = /恭喜你签到成功!获得随机奖励 金币 \d/;
-					    var coin2 = regex2.exec(xhr2.responseText)[0].split(' ')[2];
-					    localStorage.setItem('total',cc+parseInt(coin2));
+				    try{
+				    	if(c===null){
+				    	  var regex = /金币 \d/;
+					      var coin = regex.exec(xhr2.responseText)[0].split(' ')[1];
+					      localStorage.setItem('total',parseInt(coin));
+				      }else{
+					      var cc = parseInt(c);
+					      var regex2 = /金币 \d/;
+					      var coin2 = regex2.exec(xhr2.responseText)[0].split(' ')[1];
+					      localStorage.setItem('total',cc+parseInt(coin2));
+				      }
+				    }catch(err){
+				      console.log('get coin num failed.');
 				    }
 				    //本地存储今天签到日期
 				    localStorage.setItem('day',(new Date()).getDate());
@@ -87,13 +99,12 @@ function signInRs(){
 					    var ci = parseInt(c);
 					    localStorage.setItem('times',ci+1);
 				    }
-				    setAlarm();
 				  }
 				};
 			}
 		};
 	}else{
-		console.log('signed.');
+		console.log('today already signed.');
 	}
 }
 

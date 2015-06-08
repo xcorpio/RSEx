@@ -20,6 +20,15 @@
 		"default_popup": "popup.html",
 		"default_title": "RSEx"
 	},
-  
-	"permissions":["*://rs.xidian.edu.cn/","cookies","tabs","storage","alarms"]
+	
+	"content_scripts": [
+    {
+      "matches": ["http://doufm.info/*"],
+      "css": ["assets/doufm.css"],
+      "js": ["assets/lib/jquery.min.js", "assets/doufm.js"]
+    }
+  ],
+	"permissions":["http://doufm.info/*",
+	               "*://rs.xidian.edu.cn/",
+	               "cookies","tabs","storage","alarms"]
 }

@@ -1,0 +1,9 @@
+a#a_download{
+  position:fixed;
+  top:15px;
+  right:20px;
+  z-index:999999;
+  
+  outline: none;
+  text-decoration: none;
+}
