@@ -1,3 +1,25 @@
 body {
-	min-width: 250px;
+	background-image:url(bg.png);
+	background-color: #F8F8F8;
+	width:240px;
+	height:100px;
+	padding-right:40px;
+}
+#div_checkbox{
+  padding: 10px 20px;
+}
+
+#div_channel{
+  padding: 0px 20px;
+}
+#channel_title{
+  padding-bottom:3px;
+}
+#id_channel{
+  width:60px;
+  padding:2px 4px;
+  border:1px solid #18CDFB;
+  border-radius:3px;
+  outline:none;
+  box-shadow:0px 0px 1px blue;
 }

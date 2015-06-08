@@ -16,6 +16,18 @@ $(document).ready(function(){
 	});
 	$('#id_autosignin').prop('checked',localStorage.getItem('autosignin')=='true');
 	$('#id_doufm').prop('checked',localStorage.getItem('doufm')=='true');
+	
+	//聊天室
+	$("#id_button").click(function(){
+	  var channel = $("#id_channel").prop("value");
+	  var url = "http://rs.xidian.edu.cn/tv.php?mod=chat&channel="+channel;
+	  window.open(url);
+	  localStorage.setItem('channel',channel);
+	});
+	if(localStorage.getItem("channel") === null){
+	  localStorage.setItem("channel",1);
+	}
+	$("#id_channel").prop('value',localStorage.getItem("channel"));
 });
 
 

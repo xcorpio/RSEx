@@ -7,3 +7,8 @@ a#a_download{
   outline: none;
   text-decoration: none;
 }
+
+a#a_download:hover{
+  color: #009BE3;
+  font-weight: bold;
+}
