@@ -26,6 +26,11 @@
       "matches": ["http://doufm.info/*"],
       "css": ["assets/doufm.css"],
       "js": ["assets/lib/jquery.min.js", "assets/doufm.js"]
+    },
+    {
+      "matches":["http://rs.xidian.edu.cn/forum.php?mod=viewthread*"],
+      "css":["assets/rs.css"],
+      "js":["assets/lib/jquery.min.js","assets/rs.js"]
     }
   ],
 	"permissions":["http://doufm.info/*",

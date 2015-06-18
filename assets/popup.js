@@ -8,14 +8,21 @@ $(document).ready(function(){
   if(localStorage.getItem('doufm') === null){
     localStorage.setItem('doufm','true');
   }
+  if(localStorage.getItem('rs') === null){
+    localStorage.setItem('rs','true');
+  }
 	$("#id_autosignin").click(function(){
 	  localStorage.setItem('autosignin',$("#id_autosignin").prop("checked"));
 	});
 	$("#id_doufm").click(function(){
 	  localStorage.setItem('doufm',$("#id_doufm").prop("checked"));
 	});
+	$("#id_rs").click(function(){
+	  localStorage.setItem('rs',$("#id_rs").prop("checked"));
+	});
 	$('#id_autosignin').prop('checked',localStorage.getItem('autosignin')=='true');
 	$('#id_doufm').prop('checked',localStorage.getItem('doufm')=='true');
+	$('#id_rs').prop('checked',localStorage.getItem('rs')=='true');
 	
 	//聊天室
 	$("#id_button").click(function(){

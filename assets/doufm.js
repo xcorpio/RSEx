@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  chrome.extension.sendMessage({'type':'value'}, function(response){//是否使用doufm功能
+  chrome.extension.sendMessage({type:'doufm'}, function(response){//是否使用doufm功能
     if(response.isShow === false) return;
     var a = '<a id="a_download" download="fileName" href="fileUrl" title="download ">下载</a>';
     $("body").append(a);

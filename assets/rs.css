@@ -1,0 +1,11 @@
+img.audio-img:hover{
+  cursor: pointer;
+}
+img.audio-play{
+  animation: img-rotate 5s linear infinite;
+}
+
+@keyframes img-rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}

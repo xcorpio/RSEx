@@ -5,10 +5,14 @@ chrome.extension.onMessage.addListener(onMessage);
 
 //处理来自内容脚本的信息
 function onMessage(msg, sender, sendResponse){
-  sendResponse({isShow:localStorage.getItem('doufm') == 'true'});
+  if(msg.type == "doufm"){
+    sendResponse({isShow:localStorage.getItem('doufm') == 'true'});
+  }else if(msg.type == "rs"){
+    sendResponse({isShow:localStorage.getItem('rs') == 'true'});
+  }
 }
 //设置定时器
-function setAlarm(){
+function setAlarm(d_info){
   var xhr = new XMLHttpRequest();
 	xhr.open("GET","http://rs.xidian.edu.cn/misc.php?mod=faq",true);
 	xhr.send();
@@ -20,18 +24,19 @@ function setAlarm(){
       var serverTime = new Date(time);
       var alarmTime = new Date(serverTime.getFullYear(),serverTime.getMonth(),serverTime.getDate(),7,0,0,0);
       var delay = alarmTime-serverTime;
-      if(delay < 0){
+      if(delay <= 0){
         delay+=86400000;
       }
       info = {'when':delay + Date.now()};
       chrome.alarms.create("RsAlarm",info);
+      console.log(d_info,new Date().toLocaleString(),'create RsAlarm ',new Date(info.when).toLocaleString());
 	  }
 	};
 }
 
 //定时事件
 function onRsAlarm(alarm){
-  console.log(alarm,'alarm fired.');
+  console.log(new Date().toLocaleString(),alarm,' this alarm fired.');
 	signInRs();  
 }
 
@@ -40,7 +45,8 @@ function signInRs(){
   if(localStorage.getItem('autosignin')=='false'){
     return;
   }
-  setAlarm();
+  setAlarm('from signInRs begin.. ');
+
 	var day=localStorage.getItem('day');
 	var d=(new Date()).getDate().toString();
 	if(day!=d){
@@ -59,7 +65,7 @@ function signInRs(){
 				//签到心情,开心
 				var qdxq = 'kx';
 				//签到模式
-				var qdmode = '2';
+				var qdmode = '3';
 				//todaysay
 				var todaysay="";
 				//快速回复
@@ -68,8 +74,8 @@ function signInRs(){
 				var xhr2 = new XMLHttpRequest();
 				xhr2.open("POST","http://rs.xidian.edu.cn/plugin.php?id=dsu_paulsign:sign&operation=qiandao&infloat=1&inajax=1",true);
 				xhr2.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        var data = formhash+'&qdxq='+qdxq+"&qdmode="+qdmode+"&todaysay="+todaysay+'&fastreplay='+fastreplay;
-        console.log('post:',data);
+        var data = formhash+'&qdxq='+qdxq+"&qdmode="+qdmode+"&todaysay="+'&fastreplay='+fastreplay;
+        console.log(new Date().toLocaleString(),' post:',data);
 				xhr2.send(data);
 				xhr2.onreadystatechange=function(){
 				  if(xhr2.readyState==4&&xhr2.status==200){  //成功签到
@@ -86,25 +92,27 @@ function signInRs(){
 					      var coin2 = regex2.exec(xhr2.responseText)[0].split(' ')[1];
 					      localStorage.setItem('total',cc+parseInt(coin2));
 				      }
+				      //本地存储今天签到日期
+				      localStorage.setItem('day',(new Date()).getDate());
+				      //记录签到次数
+				      c = localStorage.getItem('times');
+				      if(c===null){
+					      localStorage.setItem('times',1);
+				      }else{
+					      var ci = parseInt(c);
+					      localStorage.setItem('times',ci+1);
+				      }
 				    }catch(err){
-				      console.log('get coin num failed.');
+				      console.log(new Date().toLocaleString(),' get coin num failed.');
 				    }
-				    //本地存储今天签到日期
-				    localStorage.setItem('day',(new Date()).getDate());
-				    //记录签到次数
-				    c = localStorage.getItem('times');
-				    if(c===null){
-					    localStorage.setItem('times',1);
-				    }else{
-					    var ci = parseInt(c);
-					    localStorage.setItem('times',ci+1);
-				    }
+
+				    //setAlarm('from signInRs');
 				  }
 				};
 			}
 		};
 	}else{
-		console.log('today already signed.');
+		console.log(new Date().toLocaleString(),' today already signed.');
 	}
 }
 
