@@ -27,8 +27,22 @@ $(document).ready(function(){
     
     //楼主MP3
     bgMp3();
+    
+    //语音
+    //setVoice();
   });
 });
+
+//语音输入
+function setVoice(){
+  var a = '<a id="rs-voice" class="fbld">V</a>';
+  $("div.fpd").append(a);
+  $("#rs-voice").click(function(){
+    var textarea = $("#fastpostmessage");
+    textarea.val(textarea.val()+' aaa');
+  });
+}
+
 
 //看楼主是否有自动播放:阿桑 - 受了点伤.autoplay.mp3</a>
 function bgMp3(){

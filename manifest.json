@@ -31,6 +31,11 @@
       "matches":["http://rs.xidian.edu.cn/forum.php?mod=viewthread*"],
       "css":["assets/rs.css"],
       "js":["assets/lib/jquery.min.js","assets/rs.js"]
+    },
+    {
+      "matches":["http://rs.xidian.edu.cn/tv.php?mod=chat&*"],
+      "css":["assets/channel.css"],
+      "js":["assets/lib/jquery.min.js","assets/channel.js"]
     }
   ],
 	"permissions":["http://doufm.info/*",

@@ -28,8 +28,18 @@ $(document).ready(function(){
 	$("#id_button").click(function(){
 	  var channel = $("#id_channel").prop("value");
 	  var url = "http://rs.xidian.edu.cn/tv.php?mod=chat&channel="+channel;
-	  window.open(url);
+	  //window.open(url);
+	  var width = 470;
+	  var height = 530;
+	  var off_left = (screen.width - width)/2;
+	  var off_top = (screen.height-height)/2;
+	  var createData={url:url,type:'popup',width:width,height:height,left:off_left,top:off_top};
+	  chrome.windows.create(createData,function(w){
+	    //console.log(w);
+	  });
 	  localStorage.setItem('channel',channel);
+	  console.log('hide');
+	  window.close();
 	});
 	if(localStorage.getItem("channel") === null){
 	  localStorage.setItem("channel",1);
