@@ -29,7 +29,7 @@ $(document).ready(function(){
     bgMp3();
     
     //语音
-    //setVoice();
+    setVoice();
   });
 });
 
@@ -37,9 +37,10 @@ $(document).ready(function(){
 function setVoice(){
   var a = '<a id="rs-voice" class="fbld">V</a>';
   $("div.fpd").append(a);
-  $("#rs-voice").click(function(){
-    var textarea = $("#fastpostmessage");
-    textarea.val(textarea.val()+' aaa');
+  $("#rs-voice").click(function(event){
+    //var textarea = $("#fastpostmessage");
+    //textarea.val(textarea.val()+' aaa');
+    startButton(event);
   });
 }
 

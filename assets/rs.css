@@ -17,3 +17,6 @@ a#rs-voice{
 a#rs-voice:hover{
   cursor:pointer;
 }
+a#rs-voice.voice-rec{
+  animation: img-rotate 5s linear infinite;
+}
